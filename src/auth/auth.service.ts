@@ -17,8 +17,16 @@ export class AuthService {
         console.log(details)
         const user = await this.userRepository.findOneBy({email: details.email})
 
+        // console.log('here')
         if (user) return user;
+        // console.log('creating user')
         const newUser = this.userRepository.create(details);
         return this.userRepository.save(newUser);
+    }
+
+
+    async findUser (id: number){
+        const user = await this.userRepository.findOneBy({id});
+        return user;
     }
 }
