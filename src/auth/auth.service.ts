@@ -29,4 +29,9 @@ export class AuthService {
         const user = await this.userRepository.findOneBy({id});
         return user;
     }
+
+    async findAllUsers(){
+        const users = await this.userRepository.find();
+        return users;
+    }
 }

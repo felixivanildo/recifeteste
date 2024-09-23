@@ -19,18 +19,17 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   // The validate method is required and should be implemented
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    done: VerifyCallback,
-  ): Promise<any> {
-
-
-    console.log(profile)
-    const user = await this.authservice.validateUser({email: profile.emails[0].value, name: profile.displayName,})
-
-  
+  async validate(accessToken: string, refreshToken: string, profile: Profile) {
+    // console.log(accessToken);
+    // console.log(refreshToken);
+    // console.log(profile);
+    const user = await this.authservice.validateUser({
+      email: profile.emails[0].value,
+      name: profile.displayName,
+      password_hash: null
+    });
+    // console.log('Validate');
+    // console.log(user);
     return user || null;
   }
 }

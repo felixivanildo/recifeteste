@@ -5,20 +5,22 @@ import { Users } from "src/entities/Users";
 
 
 @Injectable()
-export class SessionSerializer extends PassportSerializer{
+export class SessionSerializer extends PassportSerializer {
+  constructor(
+    @Inject('AUTH_SERVICE') private readonly authService: AuthService,
+  ) {
+    super();
+  }
 
-    constructor(
-        @Inject('AUTH_SERVICE') private readonly authService: AuthService,
-    ){
-        super()
-    }
+  serializeUser(user: Users, done: Function) {
+    console.log('Serializer User');
+    done(null, user);
+  }
 
-    serializeUser(user: Users, done: Function) {
-        done(null, user.id);
-    }
-
-    async deserializeUser(payload: any, done: Function) {
-        const user = await this.authService.findUser(payload.id);
-        return user ? done(null, user) : done(null, null)
-    }
+  async deserializeUser(payload: any, done: Function) {
+    const user = await this.authService.findUser(payload.id);
+    console.log('Deserialize User');
+    console.log(user);
+    return user ? done(null, user) : done(null, null);
+  }
 }
